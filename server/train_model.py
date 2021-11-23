@@ -41,31 +41,26 @@ Total_transactions = len(data)
 normal = len(data[data.Class == 0])
 fraudulent = len(data[data.Class == 1])
 fraud_percentage = round(fraudulent / (normal + fraudulent) * 100, 2)
-print(cl('Total number of Trnsactions are {}'.format(Total_transactions), attrs=['bold']))
+print(cl('Total number of Transactions are {}'.format(Total_transactions), attrs=['bold']))
 print(cl('Number of Normal Transactions are {}'.format(normal), attrs=['bold']))
 print(cl('Number of fraudulent Transactions are {}'.format(fraudulent), attrs=['bold']))
 print(cl('Percentage of fraud Transactions is {}'.format(fraud_percentage), attrs=['bold']))
 sc = StandardScaler()
 amount = data['Amount'].values
-data['Amount'] = sc.fit_transform(amount.reshape(-1, 1))
-data.drop(['Time'], axis=1, inplace=True)
-data.drop_duplicates(inplace=True)
 
 # Training and Testing
 X = data.drop('Class', axis=1).values
 y = data['Class'].values
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=1)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, train_size=0.80, random_state=0)
 
-# Different Models
-# Model 1: Decision Tree
-DT = DecisionTreeClassifier(max_depth=4, criterion='entropy')
-DT.fit(X_train, y_train)
-dt_yhat = DT.predict(X_test)
-print('Accuracy score of the Decision Tree model is {}'.format(accuracy_score(y_test, dt_yhat)))
-print('F1 score of the Decision Tree model is {}'.format(f1_score(y_test, dt_yhat)))
+xgb = XGBClassifier(eta=0.2, max_depth = 6)
+xgb.fit(X_train, y_train)
+xgb_yhat = xgb.predict(X_test)
+print('Accuracy score of the XGBoost model is {}'.format(accuracy_score(y_test, xgb_yhat)))
+print('F1 score of the XGBoost model is {}'.format(f1_score(y_test, xgb_yhat)))
 
 filename = 'finalized_model.sav'
-pickle.dump(DT, open(filename, 'wb'))
+pickle.dump(xgb, open(filename, 'wb'))
 
 fileXData = 'XData.sav'
 pickle.dump(X_test, open(fileXData, 'wb'))

@@ -1,5 +1,6 @@
 import "./App.css";
 import React from "react";
+import { Button, Input, Radio, Form, Container } from 'semantic-ui-react';
 
 class App extends React.Component {
   constructor(props) {
@@ -21,6 +22,9 @@ class App extends React.Component {
       reqUrl: "",
     };
   }
+
+  handleChange = (e, { value }) => this.setState({ transactionType: value })
+
   onSubmitHandler = (event) => {
     event.preventDefault();
 
@@ -91,95 +95,105 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <form onSubmit={this.onSubmitHandler}>
-          Transaction Type{" "}
-          <input
-            type="radio"
+        <Container>
+        <h1>Bank Transaction Fraud Detection</h1>
+        <Form onSubmit={this.onSubmitHandler}>
+          Transaction Type: <br />
+          <Form.Field>
+          <Radio
+            label="Payment"
             name="transactionType"
             value="1"
             checked={this.state.transactionType === "1"}
-            onChange={this.myChangeHandler}
-          />{" "}
-          Payment{" "}
-          <input
-            type="radio"
+            onChange={this.handleChange}
+          />
+          </Form.Field>
+          <Form.Field>
+          <Radio
+            label="Cash in"
             name="transactionType"
             value="2"
             checked={this.state.transactionType === "2"}
-            onChange={this.myChangeHandler}
-          />{" "}
-          Cash in{" "}
-          <input
-            type="radio"
+            onChange={this.handleChange}
+          />
+          </Form.Field>
+          <Form.Field>
+          <Radio
+            label="Cash out"
             name="transactionType"
             value="3"
             checked={this.state.transactionType === "3"}
-            onChange={this.myChangeHandler}
-          />{" "}
-          Cash out{" "}
-          <input
-            type="radio"
+            onChange={this.handleChange}
+          />
+          </Form.Field>
+          <Form.Field>
+          <Radio
+            label="Transfer"
             name="transactionType"
             value="4"
             checked={this.state.transactionType === "4"}
-            onChange={this.myChangeHandler}
-          />{" "}
-          Transfer{" "}
-          <input
-            type="radio"
+            onChange={this.handleChange}
+          />
+          </Form.Field>
+          <Form.Field>
+          <Radio
+            label="Debit"
             name="transactionType"
             value="5"
             checked={this.state.transactionType === "5"}
-            onChange={this.myChangeHandler}
-          />{" "}
-          Debit <br />
-          Amount{" "}
-          <input
+            onChange={this.handleChange}
+          />
+          </Form.Field>
+          <Input
+            placeholder="Amount"
             type="text"
             name="amount"
             value={this.state.amount}
             onChange={this.myChangeHandler}
           />
           <br />
-          Old Balance Source{" "}
-          <input
+          <br />
+          <Input
+            placeholder="Old Balance Source"
             type="text"
             name="oldBalanceSource"
             value={this.state.oldBalanceSource}
             onChange={this.myChangeHandler}
           />
           <br />
-          New Balance Source{" "}
-          <input
+          <br />
+          <Input
+            placeholder="New Balance Source"
             type="text"
             name="newBalanceSource"
             value={this.state.newBalanceSource}
             onChange={this.myChangeHandler}
           />
           <br />
-          Old Balance Destination{" "}
-          <input
+          <br />
+          <Input
+            placeholder="Old Balance Destination"
             type="text"
             name="oldBalanceDestination"
             value={this.state.oldBalanceDestination}
             onChange={this.myChangeHandler}
           />
           <br />
-          New Balance Destination{" "}
-          <input
+          <br />
+          <Input
+            placeholder="New Balance Destination"
             type="text"
             name="newBalanceDestination"
             value={this.state.newBalanceDestination}
             onChange={this.myChangeHandler}
           />
-          <br />
-          <input type="submit" />
-        </form>
-        <br /> <br /> <br />
+          <br /><br />
+          <Button type="submit" primary>Submit</Button>
+        </Form>
+        <br /> <br />
         <p>{this.state.displayErrorMessage}</p>
         <br />
-        <br />
-        <strong>Latest submission of successful form details are</strong>
+        <h4>Latest submission of successful form details are</h4>
         <p>Transaction type: {this.state.displayTransactionType}</p>
         <p>Amount: {this.state.displayAmount}</p>
         <p>Old Balance Source: {this.state.displayOldBalanceSource}</p>
@@ -191,6 +205,8 @@ class App extends React.Component {
           New Balance Destination: {this.state.displayNewBalanceDestination}
         </p>
         <p> The result of the transaction is: {this.state.displayResult}</p>
+        <br /> <br />
+        </Container>
       </div>
     );
   }

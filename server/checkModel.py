@@ -1,8 +1,8 @@
 import warnings
 warnings.filterwarnings('ignore')
 import pickle
-#from sklearn.metrics import f1_score
-#from sklearn.metrics import accuracy_score
+from sklearn.metrics import f1_score
+from sklearn.metrics import accuracy_score
 
 filename = 'finalized_model.sav'
 loaded_model = pickle.load(open(filename, 'rb'))
